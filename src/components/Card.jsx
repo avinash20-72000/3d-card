@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import Logo from '../img/adidas-9.svg';
 import Shoes from '../img/shoe.png';
 import {useMotionValue , useTransform , motion } from 'framer-motion';
@@ -9,19 +9,26 @@ const Card = () => {
     const y = useMotionValue(0);
     const rotateX = useTransform(y, [-100,100],[30,-30]);
     const rotateY = useTransform(y, [-100,100],[-30,30]);
+    const [theme,setTheme]   = useState('#e4dfdc');
 
     const colors =[
         { value : '#b6a179'},
-        { value : '#272425'},
+        { value : '#e4dfdc'},
         { value : '#6389cb'},
         { value : '#f2c758'},
         { value : '#ffffff'}
     ];
+
+    const changeTheme = (themeColor) =>
+    {
+        setTheme(themeColor);
+    } 
+
   return (
     <div style={{prespective:2000}}>
-        <motion.div style={{ x, y, rotateX, rotateY, z:100 }} drag dragElastic={0.18} 
+        <motion.div style={{ x, y, rotateX, rotateY, z:100,"backgroundColor":theme }} drag dragElastic={0.18} 
         dragConstraints={{top: 0,left:0, right:0 , bottom:0 }} whileTap={{cursor: 'grabbing'}}
-        className='w-[426px] min-h-[500px] bg-[#e4dfdc] rounded-[30px] border-[4px]  border-white px-[40px] py-[24px] cursor-grab relative'>
+        className='w-[426px] min-h-[500px] rounded-[30px] border-[4px]  border-white px-[40px] py-[24px] cursor-grab relative'>
             <div className='mb-4 max-w-[25%]'>
                 <img src={Logo} alt="logo" />
             </div>
@@ -34,7 +41,7 @@ const Card = () => {
             <ul className='flex gap-x-[10px]'>
                 {colors.map((color, index)=>{
                     return (
-                        <li key={index} style={{backgroundColor: color.value}} className='w-8 h-8 rounded-full cursor-pointer'></li>
+                        <li key={index} style={{backgroundColor: color.value}} onClick={()=>changeTheme(color.value)} className='border-[1px]  border-black w-8 h-8 rounded-full cursor-pointer'></li>
                     )
                 })}
             </ul>
